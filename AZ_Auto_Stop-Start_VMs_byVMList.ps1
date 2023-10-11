@@ -27,19 +27,19 @@ Write-Output "Azures VM After [$AzureVMs]"
 # Check if VM exists
 $ValidAzureVMsToHandle=@()
 foreach($VMName in $AzureVMsToHandle) 
-        { 
+{ 
 
-            Write-Output " ============ Checking if VMName named [$VMName] exists "
-            $CheckVM = Get-AzVM | Where-Object { $_.Name -eq $VMName }
-            Write-Output " ============ Checked: [$($CheckVM.Name)] "
-            
-            if(!(Get-AzVM | Where-Object {$_.Name -like $VMName })) { 
-                Write-Warning  "============ AzureVM : [$VMName] - Does not exist! - Check your inputs " 
-            } else {   
-                $ValidAzureVMsToHandle += $VMName 
-                Write-Output " ============ Added VM [$VMName] to valid Azure VMs to handle: [$ValidAzureVMsToHandle] "
-                }
+    Write-Output " ============ Checking if VMName named [$($VMName.Trim())] exists "
+    $CheckVM = Get-AzVM | Where-Object { $_.Name -eq $($VMName.Trim()) }
+    Write-Output " ============ Checked: [$($CheckVM.Name)] "
+    
+    if(!(Get-AzVM | Where-Object {$_.Name -like $($VMName.Trim()) })) { 
+        Write-Warning  "============ AzureVM : [$($VMName.Trim())] - Does not exist! - Check your inputs " 
+    } else {   
+        $ValidAzureVMsToHandle += $($VMName.Trim())
+        Write-Output " ============ Added VM [$($VMName.Trim())] to valid Azure VMs to handle: [$ValidAzureVMsToHandle] "
         }
+}
 
 Write-Output " ";Write-Output " "
 Write-Output " ============ Validated VMs: [$ValidAzureVMsToHandle]"
